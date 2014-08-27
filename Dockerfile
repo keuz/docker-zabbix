@@ -18,10 +18,8 @@ RUN yum -y -q install mysql mysql-server
 RUN yum -y -q install httpd php php-mysql php-snmp php-ldap
 # Additional Tools
 RUN yum -y -q install passwd perl-JSON pwgen vim
-# Install packages.
-RUN yum -y -q install java-1.7.0-openjdk
 # Install zabbix server and php frontend
-RUN yum -y -q install zabbix-agent zabbix-get zabbix-java-gateway zabbix-sender zabbix-server zabbix-server-mysql zabbix-web zabbix-web-mysql
+RUN yum -y -q install zabbix-agent zabbix-get zabbix-sender zabbix-server zabbix-server-mysql zabbix-web zabbix-web-mysql
 # Install database files, please not version number in the package (!)
 RUN yum -y -q install zabbix22-dbfiles-mysql
 # install monit
@@ -35,7 +33,6 @@ ADD ./zabbix/zabbix.ini 				/etc/php.d/zabbix.ini
 ADD ./zabbix/httpd_zabbix.conf  		/etc/httpd/conf.d/zabbix.conf
 ADD ./zabbix/zabbix.conf.php    		/etc/zabbix/web/zabbix.conf.php
 ADD ./zabbix/zabbix_agentd.conf 		/etc/zabbix/zabbix_agentd.conf
-ADD ./zabbix/zabbix_java_gateway.conf 	/etc/zabbix/zabbix_java_gateway.conf
 ADD ./zabbix/zabbix_server.conf 		/etc/zabbix/zabbix_server.conf
 
 RUN chmod 640 /etc/zabbix/zabbix_server.conf
@@ -56,7 +53,7 @@ RUN chmod 755 /start.sh
 # * Zabbix services
 # * Apache with Zabbix UI
 # * Monit
-EXPOSE 10051 10052 80 2812
+EXPOSE 10051 80 2812
 
 VOLUME ["/var/lib/mysql", "/usr/lib/zabbix/alertscripts", "/usr/lib/zabbix/externalscripts", "/etc/zabbix/zabbix_agentd.d"]
 CMD ["/bin/bash", "/start.sh"]
