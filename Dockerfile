@@ -59,4 +59,4 @@ RUN chmod 755 /start.sh
 EXPOSE 10051 80 2812
 
 VOLUME ["/var/lib/mysql", "/usr/lib/zabbix/alertscripts", "/usr/lib/zabbix/externalscripts", "/etc/zabbix/zabbix_agentd.d"]
-CMD ["/bin/bash", "/start.sh"]
+CMD ["/start.sh"]
