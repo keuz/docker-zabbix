@@ -17,26 +17,26 @@ RUN yum -y -q install mysql mysql-server
 # Install Apache and PHP5 with ldap support
 RUN yum -y -q install httpd php php-mysql php-snmp php-ldap
 # Additional Tools
-RUN yum -y -q install passwd perl-JSON pwgen vim
+RUN yum -y -q install passwd perl-JSON pwgen
 # Install zabbix server and php frontend
 RUN yum -y -q install zabbix-agent zabbix-get zabbix-sender zabbix-server zabbix-server-mysql zabbix-web zabbix-web-mysql
-# Install database files, please not version number in the package (!)
+# Install database files
 RUN yum -y -q install zabbix22-dbfiles-mysql
 # install monit
 RUN yum -y -q install monit
 # Cleaining up.
 RUN yum clean all
 # MySQL
-ADD ./mysql/my.cnf /etc/mysql/conf.d/
+ADD my.cnf /etc/mysql/conf.d/
 # Zabbix Conf Files
-ADD zabbix/zabbix.ini /etc/php.d/
-ADD zabbix/httpd_zabbix.conf /etc/httpd/conf.d/zabbix.conf
-ADD zabbix/zabbix.conf.php /etc/zabbix/web/
-ADD zabbix/zabbix_agentd.conf /etc/zabbix/
-ADD zabbix/zabbix_server.conf /etc/zabbix/
+ADD zabbix.ini /etc/php.d/
+ADD httpd_zabbix.conf /etc/httpd/conf.d/zabbix.conf
+ADD zabbix.conf.php /etc/zabbix/web/
+ADD zabbix_agentd.conf /etc/zabbix/
+ADD zabbix_server.conf /etc/zabbix/
 
 # Change Apache DocumentRoot to zabbix folder
-sed -i 's/^DocumentRoot "\/var\/www\/html"$/DocumentRoot "\/usr\/share\/zabbix"/' /etc/httpd/conf/httpd.conf
+RUN sed -i 's/^DocumentRoot "\/var\/www\/html"$/DocumentRoot "\/usr\/share\/zabbix"/' /etc/httpd/conf/httpd.conf
 
 RUN chmod 640 /etc/zabbix/zabbix_server.conf
 RUN chown root:zabbix /etc/zabbix/zabbix_server.conf
@@ -49,7 +49,7 @@ RUN chmod 600 /etc/monitrc
 RUN echo "NETWORKING=yes" > /etc/sysconfig/network
 
 # Add the script that will start the repo.
-ADD scripts/ /start.sh
+ADD /start.sh /
 RUN chmod 755 /start.sh
 
 # Expose the Ports used by
