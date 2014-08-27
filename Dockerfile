@@ -35,6 +35,9 @@ ADD ./zabbix/zabbix.conf.php    		/etc/zabbix/web/zabbix.conf.php
 ADD ./zabbix/zabbix_agentd.conf 		/etc/zabbix/zabbix_agentd.conf
 ADD ./zabbix/zabbix_server.conf 		/etc/zabbix/zabbix_server.conf
 
+# Change Apache DocumentRoot to zabbix folder
+sed -i 's/^DocumentRoot "\/var\/www\/html"$/DocumentRoot "\/usr\/share\/zabbix"/' /etc/httpd/conf/httpd.conf
+
 RUN chmod 640 /etc/zabbix/zabbix_server.conf
 RUN chown root:zabbix /etc/zabbix/zabbix_server.conf
 
