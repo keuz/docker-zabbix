@@ -22,15 +22,19 @@ function check_install_mysql()
         start_mysql
 
         mysql_upgrade
-        PASS="admin"
+        local PASS="admin"
         echo "=> MySQL admin password: $PASS"
         mysql -uroot -e "CREATE USER 'admin'@'%' IDENTIFIED BY '$PASS'"
         mysql -uroot -e "GRANT ALL PRIVILEGES ON *.* TO 'admin'@'%';"
         mysql -uroot -e "CREATE DATABASE zabbix"
-        zabbix_mysql_v="/usr/share/zabbix-mysql"
-        mysql -uroot zabbix < "${zabbix_mysql_v}/schema.sql"
-        mysql -uroot zabbix < "${zabbix_mysql_v}/images.sql"
-        mysql -uroot zabbix < "${zabbix_mysql_v}/data.sql"
+
+        echo "=> Executing Zabbix MySQL script files ..."
+        local ZABBIX_MYSQL_V="/usr/share/zabbix-mysql"
+        mysql -uroot zabbix < "${ZABBIX_MYSQL_V}/schema.sql"
+        mysql -uroot zabbix < "${ZABBIX_MYSQL_V}/images.sql"
+        mysql -uroot zabbix < "${ZABBIX_MYSQL_V}/data.sql"
+        echo "=> Done"
+
         mysql -uroot -e "CREATE USER 'zabbix'@'%' IDENTIFIED BY 'zabbix'"
         mysql -uroot -e "CREATE USER 'zabbix'@'localhost' IDENTIFIED BY 'zabbix'"
         mysql -uroot -e "GRANT ALL PRIVILEGES ON zabbix.* TO 'zabbix'@'%'"
@@ -44,5 +48,5 @@ function check_install_mysql()
 
 check_install_mysql
 
-echo "=> Starting Monit..."
+echo "=> Executing Monit..."
 exec monit -d 10 -Ic /etc/monitrc
