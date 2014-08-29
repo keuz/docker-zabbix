@@ -10,21 +10,20 @@ RUN yum install -y http://repo.zabbix.com/zabbix/2.2/rhel/6/x86_64/zabbix-releas
 
 RUN yum makecache
 # Installing SNMP Utils
-#RUN yum -y install libsnmp-dev libsnmp-base libsnmp-dev libsnmp-perl libnet-snmp-perl librrds-perl
 RUN yum -y -q install net-snmp-devel net-snmp-libs net-snmp net-snmp-perl net-snmp-python net-snmp-utils
 # Install Lamp Stack, including PHP5 SNMP
 RUN yum -y -q install mysql mysql-server
 # Install Apache and PHP5 with ldap support
 RUN yum -y -q install httpd php php-mysql php-snmp php-ldap
 # Additional Tools
-RUN yum -y -q install passwd perl-JSON pwgen
+RUN yum -y -q install perl-JSON pwgen
 # Install zabbix server and php frontend
 RUN yum -y -q install zabbix-agent zabbix-get zabbix-sender zabbix-server zabbix-server-mysql zabbix-web zabbix-web-mysql
 # Install database files
 RUN yum -y -q install zabbix22-dbfiles-mysql
 # install monit
 RUN yum -y -q install monit
-# Cleaining up.
+# Cleaining up
 RUN yum clean all
 # MySQL
 ADD my.cnf /etc/
