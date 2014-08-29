@@ -57,5 +57,5 @@ RUN chmod 755 /run.sh
 # * Monit
 EXPOSE 10051 80 2812
 
-VOLUME ["/var/lib/mysql", "/usr/lib/zabbix/alertscripts", "/usr/lib/zabbix/externalscripts", "/etc/zabbix/zabbix_agentd.d"]
+VOLUME ["/var/lib/mysql"]
 CMD ["/run.sh"]
