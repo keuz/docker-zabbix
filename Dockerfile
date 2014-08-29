@@ -1,5 +1,5 @@
 FROM centos:centos6
-MAINTAINER Bernardo Gomez Palacio <bernardo.gomezpalacio@gmail.com>
+MAINTAINER Alexey Bogdanenko <abogdanenko@dentavita.ru>
 
 # Update base images.
 RUN yum distribution-synchronization -y
