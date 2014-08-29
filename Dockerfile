@@ -48,9 +48,8 @@ RUN chmod 600 /etc/monitrc
 # https://github.com/dotcloud/docker/issues/1240#issuecomment-21807183
 RUN echo "NETWORKING=yes" > /etc/sysconfig/network
 
-# Add the script that will start the repo.
-ADD /start.sh /
-RUN chmod 755 /start.sh
+ADD /run.sh /
+RUN chmod 755 /run.sh
 
 # Expose the Ports used by
 # * Zabbix services
@@ -59,4 +58,4 @@ RUN chmod 755 /start.sh
 EXPOSE 10051 80 2812
 
 VOLUME ["/var/lib/mysql", "/usr/lib/zabbix/alertscripts", "/usr/lib/zabbix/externalscripts", "/etc/zabbix/zabbix_agentd.d"]
-CMD ["/start.sh"]
+CMD ["/run.sh"]
