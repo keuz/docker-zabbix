@@ -1,5 +1,5 @@
 FROM centos:centos6
-MAINTAINER Alexey Bogdanenko <abogdanenko@dentavita.ru>
+MAINTAINER Petr Vasiliev <petr-wasilew@yandex.ru>
 
 # Update base images.
 RUN yum distribution-synchronization -y
@@ -44,6 +44,15 @@ RUN chown root:zabbix /etc/zabbix/zabbix_server.conf
 ADD monitrc /etc/
 RUN chmod 600 /etc/monitrc
 
+# Mstmtp
+RUN yum -y -q install msmtp
+ADD msmtprc /etc/msmtprc
+RUN chown root:zabbix /etc/msmtprc
+RUN chmod 640 /etc/msmtprc
+
+ADD mailalert.sh /usr/lib/zabbix/alertscripts/
+RUN chmod 755 /usr/lib/zabbix/alertscripts/mailalert.sh
+
 # https://github.com/dotcloud/docker/issues/1240#issuecomment-21807183
 RUN echo "NETWORKING=yes" > /etc/sysconfig/network
 
@@ -58,3 +67,8 @@ EXPOSE 10051 80 2812
 
 VOLUME ["/var/lib/mysql"]
 CMD ["/run.sh"]
+
+
+
+
+

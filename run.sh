@@ -46,7 +46,21 @@ function check_install_mysql()
     fi
 }
 
+function config_mail()
+{
+
+    if [[ ! -z $GMAIL_USER ]]; then
+
+        sed -i "s/^\(user \).*/\1${GMAIL_USER}/g" /etc/msmtprc
+        sed -i "s/^\(from \).*/\1${GMAIL_USER}/g" /etc/msmtprc
+        sed -i "s/^\(password \).*/\1${GMAIL_PASS}/g" /etc/msmtprc
+
+    fi
+
+}
+
 check_install_mysql
+config_mail
 
 echo "=> Executing Monit..."
 exec monit -d 10 -Ic /etc/monitrc
